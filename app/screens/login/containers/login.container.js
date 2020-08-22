@@ -18,8 +18,8 @@ import { NOTIFICATION_TYPE } from '@Utilities/constants/data.constants';
 
 class LoginContainer extends Component {
     state = {
-        email: 'duranzavala@gmail.co',
-        password: 'planb04300',
+        email: '',
+        password: '',
         rememberSession: false,
     };
 
