@@ -1,4 +1,5 @@
 import Utils from '@Utilities';
+import RegisterService from '@Services/register.service';
 
 const isValidFirstName = (firstName) => firstName.length > 0;
 
@@ -29,8 +30,15 @@ const validateFields = ({ firstName, password, confirmPassword, email }) => {
     return response;
 };
 
-const registerUser = (username, password) => {
-    return false
+const registerUser = async (email, password, firstName, lastName) => {
+    let result = { success: false, message: '' };
+    
+    try {
+        const registerService = new RegisterService();
+        return registerService.register(email, password, firstName, lastName);
+    } catch (error) { result.message = error }
+
+    return result;
 };
 
 export default {

@@ -1,7 +1,14 @@
-const AUTHENTICATE_COMMAND = 'signin';
-const AUTHENTICATE_CONTROLLER = 'auth';
+const CONTROLLERS = {
+    AUTHENTICATE_CONTROLLER: 'auth',
+    USER_CONTROLLER: 'user',
+};
+
+const COMMANDS = {
+    SIGNIN_COMMAND: 'signIn',
+    SIGNUP_COMMAND: 'signUp',
+};
 
 export {
-    AUTHENTICATE_COMMAND,
-    AUTHENTICATE_CONTROLLER,
+    CONTROLLERS,
+    COMMANDS,
 };

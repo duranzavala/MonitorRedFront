@@ -1,11 +1,11 @@
 import BaseService from '@Services/base.service';
-import { AUTHENTICATE_CONTROLLER, AUTHENTICATE_COMMAND } from '@Utilities/constants/commands.constants';
+import { CONTROLLERS, COMMANDS, } from '@Utilities/constants/commands.constants';
 
 export default class LoginService extends BaseService {
     async login(username, password) {
         const data = {
-            controller: AUTHENTICATE_CONTROLLER,
-            command: AUTHENTICATE_COMMAND,
+            controller: CONTROLLERS.AUTHENTICATE_CONTROLLER,
+            command: COMMANDS.SIGNIN_COMMAND,
             data: {
                 Email: username,
                 Password: password,

@@ -63,10 +63,10 @@ class LoginContainer extends Component {
         if (isSuccess) {
             const result = await LoginController.login(email, password);
 
-            if (result) {
+            if (result.success) {
                 this.props.navigation.navigate('Register');
             } else {
-                Alert.alert('Login failed','Invalid email or password', [{ text: 'Ok' }]);
+                Alert.alert('Login failed', result.message, [{ text: 'Ok' }]);
                 // this.props.actionShowNotification('Login failed: Invalid email or password', NOTIFICATION_TYPE.CONFIRMATION);
             }
         } else {
