@@ -30,17 +30,15 @@ const saveToken = async (token) => {
 };
 
 const login = async (username, password) => {
-    let result = false;
+    let result = { success: false, message: '' };
     
     try {
         const loginService = new LoginService();
-        const { success, data: token } = await loginService.login(username, password);
-
-        if (success) {
-            await saveToken(token);
-            return true;
+        result = await loginService.login(username, password);
+        if (result.success) {
+            await saveToken(result.data);
         }
-    } catch (error) { console.log('>>>>> error: ', error); }
+    } catch (error) { result.message = error }
 
     return result;
 }

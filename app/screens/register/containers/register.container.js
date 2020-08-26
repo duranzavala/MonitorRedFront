@@ -20,7 +20,6 @@ class RegisterContainer extends Component {
         password: '',
         confirmPassword: '',
         email: '',
-        errors: [],
     };
 
     renderTitle = () => (
@@ -97,15 +96,17 @@ class RegisterContainer extends Component {
 
     onPressRegister = async () => {
         const { isSuccess, errors } = RegisterController.validateFields(this.state);
+        const { email, password, firstName, lastName  } = this.state;
 
         if (isSuccess) {
-            const result = RegisterController.registerUser(email, password);
+            const result = await RegisterController.registerUser(email, password, firstName, lastName);
 
-            if (result) {
-                this.props.navigation.navigate('Register');
+            if (result.success) {
+                Alert.alert('Register successfully', '', [{ text: 'Ok' }]);
+                this.props.navigation.navigate('Login');
             } else {
-                Alert.alert('Register failed','Invalid email or password', [{ text: 'Ok' }]);
-                // this.props.actionShowNotification('Login failed: Invalid email or password', NOTIFICATION_TYPE.CONFIRMATION);
+                Alert.alert('Register failed', result.message, [{ text: 'Ok' }]);
+                // this.props.actionShowNotification(`Register failed: ${result.message}`, NOTIFICATION_TYPE.ERROR);
             }
         } else {
             const textError = errors.length > 0 ? errors.join(', ') : '';

@@ -14,7 +14,6 @@ class BaseService {
 
     async CustomCommand(method, { controller, command, data }, customToken) {
         const token = customToken || (await this.getToken());
-
         try {
             const response = await fetch(`${BASE_URL}/${controller}/${command}`, {
                 method,
@@ -26,6 +25,7 @@ class BaseService {
                 body: JSON.stringify(data),
             }).then(async (value) => {
                 const json = await value.json();
+                console.log('>>>>>> json:', json);
 
                 return {
                     success: true,
@@ -42,14 +42,16 @@ class BaseService {
                 return response.result;
             }
 
-            let result = {
-                code: response.code,
-                message: this.formatErrorMessage(response.message),
-                responseStatus: response.status,
+            const { result } = response;
+
+            let resultError = {
+                code: result.status,
+                message: this.formatErrorMessage(result.detail),
+                responseStatus: result.title,
                 success: false,
             };
 
-            return result;
+            return resultError;
         } catch (error) {
             return {
                 success: false,
@@ -70,24 +72,7 @@ class BaseService {
         }
     }
 
-    isJson = (str) => {
-        try {
-            JSON.parse(str);
-        } catch (e) {
-            return false;
-        }
-        return true;
-    };
-
-    formatErrorMessage = (message) => {
-        let newMessage = message;
-
-        if (this.isJson(message)) {
-            newMessage = JSON.parse(message)?.message || GLOBAL_ERROR_MESSAGE;
-        }
-
-        return newMessage;
-    };
+    formatErrorMessage = (message) => message.join(', ');
 };
 
 export default BaseService;
